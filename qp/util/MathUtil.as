@@ -1,0 +1,1 @@
+﻿package qp.util {    public class MathUtil {        public static function linear(start: Number, end: Number, t: Number): Number {            return start + (end - start) * t;        }    }}
