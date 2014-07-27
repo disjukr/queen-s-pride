@@ -5,7 +5,7 @@ package qp.game {
 
     import qp.util.MathUtil;
 
-    public class Player extends MovieClip implements IGameObject, ICanDie {
+    public class Player extends MovieClip implements Pausable, ICanDie {
 
         private static var DEFAULT_MAX_HEALTH: int = 100;
         private static var DEFAULT_HEALTH: int = 100;
@@ -18,9 +18,7 @@ package qp.game {
         private var _moveTargetY: Number;
 
         public function Player() {
-            this.setTo(0, 0);
             this._health = DEFAULT_HEALTH;
-            addListeners();
         }
 
         public function setTo(positionX: Number, positionY: Number): void { // 좌표를 설정. 목표 좌표도 같이 설정된다.
@@ -44,15 +42,16 @@ package qp.game {
             // do nothing currently
         }
 
-        // IGameObject
+        // Pausable
         public function pause(): void {
+            if (this._animation is MovieClip)
+                _animation.stop();
             removeListeners();
         }
         public function resume(): void {
+            if (this._animation is MovieClip)
+                _animation.play();
             addListeners();
-        }
-        public function destroy(): void {
-            removeListeners();
         }
 
         private function addListeners(): void {
