@@ -11,10 +11,13 @@ package qp.game {
             super();
         }
         public function pause(): void {
+            this.stop();
             this.player.pause();
             this.background.pause();
         }
         public function resume(): void {
+            if (this.currentFrame < this.totalFrames)
+                this.play();
             this.player.resume();
             this.background.resume();
         }
