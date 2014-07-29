@@ -8,16 +8,22 @@ package qp.game {
     public class Player extends MovieClip implements Pausable, ICanDie {
 
         public static var LIVE: String = 'live';
+        public static var HURT: String = 'hurt';
         public static var DEAD: String = 'dead';
 
         private static var DEFAULT_MAX_HEALTH: int = 100;
         private static var DEFAULT_HEALTH: int = 100;
+        private static var HURT_TIME: int = 40;
+        private static var HURT_BLINK_TIME: int = 10;
+        private static var HURT_BLINK_ALPHA: Number = 0.2;
         private static var MOVE_EASING: Number = 0.4; // 0 ~ 1 사이의 값.
                                                       // 캐릭터의 좌표는 매 프레임 이 값을 기준으로 선형보간되며
                                                       // 1에 가까울 수록 목표좌표에 빠르게 다가간다.
 
         private var _health: int;
         private var _state: String;
+        private var _hurtTime: int;
+        private var _hurtBlinkTime: int;
         private var _moveTargetX: Number;
         private var _moveTargetY: Number;
 
@@ -77,7 +83,14 @@ package qp.game {
                     this._dy = -10;
                     this.gotoAndStop("death");
                     this.dispatchEvent(new Event("dead"));
+                } else {
+                    this._state = HURT;
+                    this._hurtTime = HURT_TIME;
                 }
+                break;
+            case HURT:
+                break;
+            case DEAD:
                 break;
             }
         }
@@ -102,11 +115,25 @@ package qp.game {
             this.removeEventListener(Event.ENTER_FRAME, ENTER_FRAME);
         }
 
+        private function move(): void {
+            this.x = MathUtil.linear(this.x, this._moveTargetX, MOVE_EASING);
+            this.y = MathUtil.linear(this.y, this._moveTargetY, MOVE_EASING);
+        }
+
         private function ENTER_FRAME(e: Event): void {
             switch (this._state) {
-            case LIVE: // move
-                this.x = MathUtil.linear(this.x, this._moveTargetX, MOVE_EASING);
-                this.y = MathUtil.linear(this.y, this._moveTargetY, MOVE_EASING);
+            case LIVE:
+                move();
+                break;
+            case HURT:
+                this.alpha = (this._hurtBlinkTime > (HURT_BLINK_TIME >> 1)) ?
+                             HURT_BLINK_ALPHA : 1;
+                this._hurtBlinkTime = (this._hurtBlinkTime + 1) % HURT_BLINK_TIME;
+                if (--this._hurtTime <= 0) {
+                    this.alpha = 1;
+                    this._state = LIVE;
+                }
+                move();
                 break;
             case DEAD:
                 this._dy += 1;
