@@ -16,7 +16,8 @@ package qp.game {
             this.background.pause();
         }
         public function resume(): void {
-            if (this.currentFrame < this.totalFrames)
+            if (this.currentFrame < this.totalFrames &&
+                this.player.state == Player.LIVE)
                 this.play();
             this.player.resume();
             this.background.resume();
