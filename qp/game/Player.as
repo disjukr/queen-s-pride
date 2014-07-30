@@ -33,6 +33,8 @@ package qp.game {
         private var _dy: Number; // 죽는 상황에만 사용됨
 
         public function Player() {
+            this.mouseEnabled = false;
+            this.mouseChildren = false;
             this._health = DEFAULT_HEALTH;
             this._state = LIVE;
         }

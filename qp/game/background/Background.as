@@ -4,6 +4,8 @@ package qp.game.background {
     public class Background extends MovieClip implements Pausable {
         public function Background() {
             super();
+            this.mouseEnabled = false;
+            this.mouseChildren = false;
         }
         public function pause(): void {
             return;

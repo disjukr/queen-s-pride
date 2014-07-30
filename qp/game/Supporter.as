@@ -11,7 +11,10 @@ package qp.game {
         public var anchor: Point;
         public var focusAnchor: Point;
         public var focus: Boolean;
-        public function Supporter() {}
+        public function Supporter() {
+            this.mouseEnabled = false;
+            this.mouseChildren = false;
+        }
         // Pausable
         public function pause(): void {
             this.stop();

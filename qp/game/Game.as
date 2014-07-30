@@ -9,6 +9,7 @@ package qp.game {
         public var player: Player;
         public var supporters: Vector.<Supporter>;
         public var background: Background;
+        public var dynamicArea: MovieClip;
         public function Game() {
             supporters = new Vector.<Supporter>;
             super();
@@ -21,7 +22,7 @@ package qp.game {
                 supporter.x = this.player.x - anchor.x;
                 supporter.y = this.player.y - anchor.y;
             }
-            this.addChild(supporter);
+            dynamicArea.addChild(supporter);
             supporters.push(supporter);
             // calc focus anchor
             var lift: Number = (this.supporters.length - 1) * 30 * 0.5;
