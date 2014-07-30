@@ -19,6 +19,9 @@ package qp.game {
         private static var MOVE_EASING: Number = 0.4; // 0 ~ 1 사이의 값.
                                                       // 캐릭터의 좌표는 매 프레임 이 값을 기준으로 선형보간되며
                                                       // 1에 가까울 수록 목표좌표에 빠르게 다가간다.
+        private static var FOCUS_EASING: Number = 0.05;
+
+        public var focus: Boolean;
 
         private var _health: int;
         private var _state: String;
@@ -70,32 +73,6 @@ package qp.game {
             }
         }
 
-
-        // just for test
-        //////////////////////////////
-        public function thit(): void {
-            switch (this._state) {
-            case LIVE:
-                this._health -= 10;
-                if (this._health <= 0) {
-                    this._health = 0;
-                    this._state = DEAD;
-                    this._dy = -10;
-                    this.gotoAndStop("death");
-                    this.dispatchEvent(new Event("dead"));
-                } else {
-                    this._state = HURT;
-                    this._hurtTime = HURT_TIME;
-                }
-                break;
-            case HURT:
-                break;
-            case DEAD:
-                break;
-            }
-        }
-        //////////////////////////////
-
         // Pausable
         public function pause(): void {
             if (this._animation is MovieClip)
@@ -116,8 +93,9 @@ package qp.game {
         }
 
         private function move(): void {
-            this.x = MathUtil.linear(this.x, this._moveTargetX, MOVE_EASING);
-            this.y = MathUtil.linear(this.y, this._moveTargetY, MOVE_EASING);
+            var easing: Number = this.focus ? FOCUS_EASING : MOVE_EASING;
+            this.x = MathUtil.linear(this.x, this._moveTargetX, easing);
+            this.y = MathUtil.linear(this.y, this._moveTargetY, easing);
         }
 
         private function ENTER_FRAME(e: Event): void {
