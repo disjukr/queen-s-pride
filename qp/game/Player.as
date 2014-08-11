@@ -1,5 +1,6 @@
 package qp.game {
     
+    import flash.display.DisplayObject;
     import flash.display.MovieClip;
     import flash.events.Event;
 
@@ -20,8 +21,11 @@ package qp.game {
                                                       // 캐릭터의 좌표는 매 프레임 이 값을 기준으로 선형보간되며
                                                       // 1에 가까울 수록 목표좌표에 빠르게 다가간다.
         private static var FOCUS_EASING: Number = 0.05;
+        private static var SHOT_DELAY: int = 3;
 
+        public var game: Game;
         public var focus: Boolean;
+        public var enemies: Vector.<ICanDie>;
 
         private var _health: int;
         private var _state: String;
@@ -32,11 +36,16 @@ package qp.game {
 
         private var _dy: Number; // 죽는 상황에만 사용됨
 
+        private var _shotPool: PlayerShotPool;
+        private var _shotCool: int;
+
         public function Player() {
             this.mouseEnabled = false;
             this.mouseChildren = false;
             this._health = DEFAULT_HEALTH;
             this._state = LIVE;
+            this._shotPool = new PlayerShotPool;
+            this._shotCool = 0;
         }
 
         public function setTo(positionX: Number, positionY: Number): void { // 좌표를 설정. 목표 좌표도 같이 설정된다.
@@ -74,6 +83,9 @@ package qp.game {
                 break;
             }
         }
+        public function getHitArea(): DisplayObject {
+            return this;
+        }
 
         // Pausable
         public function pause(): void {
@@ -100,10 +112,23 @@ package qp.game {
             this.y = MathUtil.linear(this.y, this._moveTargetY, easing);
         }
 
+        private function shot(): void {
+            var shot: PlayerShot = _shotPool.alloc();
+            shot.x = this.x + 70;
+            shot.y = this.y;
+            if (game.dynamicArea)
+                game.dynamicArea.addChild(shot);
+            shot.resume();
+        }
+
         private function ENTER_FRAME(e: Event): void {
             switch (this._state) {
             case LIVE:
                 move();
+                if (++this._shotCool > SHOT_DELAY) {
+                    this._shotCool = 0;
+                    shot();
+                }
                 break;
             case HURT:
                 this.alpha = (this._hurtBlinkTime > (HURT_BLINK_TIME >> 1)) ?

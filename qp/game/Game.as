@@ -9,7 +9,12 @@ package qp.game {
         public var player: Player;
         public var supporters: Vector.<Supporter>;
         public var background: Background;
+
+        // 동적으로 화면에 무언가를 배치하기 위한 영역
+        // 경고 표시를 위쪽에 그리기 위해서 동적으로 생성되는 객체,
+        // 총알, 서포터 적 등은 이 곳에 생성한다.
         public var dynamicArea: MovieClip;
+
         public function Game() {
             supporters = new Vector.<Supporter>;
             super();
@@ -39,9 +44,15 @@ package qp.game {
         public function pause(): void {
             this.stop();
             this.player.pause();
-            this.supporters.forEach(function (supporter: Supporter, index, vector): void {
-                supporter.pause();
-            });
+            for (var i: int = 0; i < this.dynamicArea.numChildren; ++i) {
+                var pausable: Pausable;
+                try {
+                    pausable = Pausable(this.dynamicArea.getChildAt(i));
+                } catch (e) {
+                    pausable = null;
+                }
+                if (pausable) pausable.pause();
+            }
             this.background.pause();
         }
         public function resume(): void {
@@ -49,9 +60,15 @@ package qp.game {
                 this.player.state == Player.LIVE)
                 this.play();
             this.player.resume();
-            this.supporters.forEach(function (supporter: Supporter, index, vector): void {
-                supporter.resume();
-            });
+            for (var i: int = 0; i < this.dynamicArea.numChildren; ++i) {
+                var pausable: Pausable;
+                try {
+                    pausable = Pausable(this.dynamicArea.getChildAt(i));
+                } catch (e) {
+                    pausable = null;
+                }
+                if (pausable) pausable.resume();
+            }
             this.background.resume();
         }
     }
