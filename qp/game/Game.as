@@ -7,6 +7,7 @@ package qp.game {
 
     public class Game extends MovieClip implements Pausable {
         public var player: Player;
+        public var skillBar: MovieClip;
         public var supporters: Vector.<Supporter>;
         public var background: Background;
 
@@ -44,6 +45,7 @@ package qp.game {
         public function pause(): void {
             this.stop();
             this.player.pause();
+            this.skillBar.pause();
             for (var i: int = 0; i < this.dynamicArea.numChildren; ++i) {
                 var pausable: Pausable;
                 try {
@@ -60,6 +62,8 @@ package qp.game {
                 this.player.state == Player.LIVE)
                 this.play();
             this.player.resume();
+            if (this.skillBar && this.skillBar.resume)
+                this.skillBar.resume();
             for (var i: int = 0; i < this.dynamicArea.numChildren; ++i) {
                 var pausable: Pausable;
                 try {
