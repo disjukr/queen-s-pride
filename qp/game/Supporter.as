@@ -6,14 +6,21 @@ package qp.game {
     import qp.util.MathUtil;
     public class Supporter extends MovieClip implements Pausable {
         private static var MOVE_EASING: Number = 0.2;
+        private static var SHOT_DELAY: int = 8;
         
         public var game: Game;
         public var anchor: Point;
         public var focusAnchor: Point;
         public var focus: Boolean;
+
+        private var _shotPool: SupporterShotPool;
+        private var _shotCool: int;
+
         public function Supporter() {
             this.mouseEnabled = false;
             this.mouseChildren = false;
+            this._shotPool = new SupporterShotPool;
+            this._shotCool = 0;
         }
         // Pausable
         public function pause(): void {
@@ -40,8 +47,21 @@ package qp.game {
             this.y = MathUtil.linear(this.y, player.y - anchor.y, MOVE_EASING);
         }
 
+        private function shot(): void {
+            var shot: SupporterShot = _shotPool.alloc();
+            shot.x = this.x + 70;
+            shot.y = this.y;
+            if (game.dynamicArea)
+                game.dynamicArea.addChild(shot);
+            shot.resume();
+        }
+
         private function ENTER_FRAME(e: Event): void {
             move();
+            if (++this._shotCool > SHOT_DELAY) {
+                this._shotCool = 0;
+                shot();
+            }
         }
     }
 }

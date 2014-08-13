@@ -21,7 +21,7 @@ package qp.game {
                                                       // 캐릭터의 좌표는 매 프레임 이 값을 기준으로 선형보간되며
                                                       // 1에 가까울 수록 목표좌표에 빠르게 다가간다.
         private static var FOCUS_EASING: Number = 0.05;
-        private static var SHOT_DELAY: int = 3;
+        private static var SHOT_DELAY: int = 5;
 
         public var game: Game;
         public var focus: Boolean;
@@ -114,7 +114,7 @@ package qp.game {
 
         private function shot(): void {
             var shot: PlayerShot = _shotPool.alloc();
-            shot.x = this.x + 70;
+            shot.x = this.x + 100;
             shot.y = this.y;
             if (game.dynamicArea)
                 game.dynamicArea.addChild(shot);

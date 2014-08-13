@@ -3,7 +3,7 @@ package qp.game {
     import flash.events.Event;
 
     public class PlayerShot extends MovieClip implements Pausable, ICanAttack {
-        private var dx: int;
+        private var dx: Number;
         private var _targets: Vector.<ICanDie>;
         private var _pool: PlayerShotPool;
 
@@ -15,7 +15,7 @@ package qp.game {
             this._targets = value;
         }
         public function get damage(): int {
-            return 1;
+            return 20;
         }
 
         public function init(): void {
