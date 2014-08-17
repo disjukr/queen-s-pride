@@ -1,5 +1,6 @@
 package qp.game {
 
+    import flash.display.DisplayObject;
     import flash.display.MovieClip;
     import flash.geom.Point;
 
@@ -7,9 +8,15 @@ package qp.game {
 
     public class Game extends MovieClip implements Pausable {
         public var player: Player;
+        public var players: Vector.<ICanDie>;
         public var skillBar: MovieClip;
         public var supporters: Vector.<Supporter>;
         public var background: Background;
+
+        private var _mission: int;
+        private var _score: int;
+        public var missionHook: Function;
+        public var scoreHook: Function;
 
         // 동적으로 화면에 무언가를 배치하기 위한 영역
         // 경고 표시를 위쪽에 그리기 위해서 동적으로 생성되는 객체,
@@ -18,8 +25,28 @@ package qp.game {
 
         public function Game() {
             supporters = new Vector.<Supporter>;
+            players = new Vector.<ICanDie>;
             super();
         }
+
+        public function set mission(value: int): void {
+            _mission = Math.max(0, value);
+            if (missionHook != null) missionHook();
+        }
+
+        public function get mission(): int {
+            return _mission;
+        }
+
+        public function set score(value: int): void {
+            _score = Math.max(0, value);
+            if (scoreHook != null) scoreHook();
+        }
+
+        public function get score(): int {
+            return _score;
+        }
+
         public function addSupporter(supporterClass: Class, anchor: Point): void {
             var supporter: Supporter = new supporterClass;
             supporter.game = this;
@@ -35,6 +62,23 @@ package qp.game {
             this.supporters.forEach(function (supporter: Supporter, index, vector): void {
                 supporter.focusAnchor = new Point(-40, 30 * index - lift);
             });
+        }
+        public function spawnMonster(monsterClass: Class, spawnPoint: DisplayObject): void {
+            var monster: MovieClip = new monsterClass;
+            monster.game = this;
+            monster.targets = players;
+            monster.x = spawnPoint.x;
+            monster.y = spawnPoint.y;
+            dynamicArea.addChild(monster);
+            player.enemies.push(ICanDie(monster));
+            monster.resume();
+        }
+        public function removeMonster(monster: MovieClip): void {
+            monster.pause();
+            dynamicArea.removeChild(monster);
+            var idx: int = player.enemies.indexOf(ICanDie(monster));
+            if (idx > -1)
+                player.enemies.splice(idx, 1);
         }
         public function focus(value: Boolean): void {
             this.player.focus = value;

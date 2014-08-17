@@ -46,6 +46,7 @@ package qp.game {
             this._state = LIVE;
             this._shotPool = new PlayerShotPool;
             this._shotCool = 0;
+            this.enemies = new Vector.<ICanDie>;
         }
 
         public function setTo(positionX: Number, positionY: Number): void { // 좌표를 설정. 목표 좌표도 같이 설정된다.
@@ -116,6 +117,7 @@ package qp.game {
             var shot: PlayerShot = _shotPool.alloc();
             shot.x = this.x + 100;
             shot.y = this.y;
+            shot.targets = this.enemies;
             if (game.dynamicArea)
                 game.dynamicArea.addChild(shot);
             shot.resume();
