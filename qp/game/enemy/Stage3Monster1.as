@@ -13,7 +13,7 @@ package qp.game.enemy {
         private var _targets: Vector.<ICanDie>;
 
         public function Stage3Monster1() {
-            this._health = this._maxHealth = 200;
+            this._health = this._maxHealth = 300;
             this._t = 0;
         }
 

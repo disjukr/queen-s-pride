@@ -51,6 +51,8 @@ package qp.game {
             var shot: SupporterShot = _shotPool.alloc();
             shot.x = this.x + 70;
             shot.y = this.y;
+            if (game.player)
+                shot.targets = game.player.enemies;
             if (game.dynamicArea)
                 game.dynamicArea.addChild(shot);
             shot.resume();
