@@ -92,11 +92,15 @@ package qp.game {
         public function pause(): void {
             if (this._animation is MovieClip)
                 _animation.stop();
+            if (this._attack_effect is MovieClip)
+                _attack_effect.stop();
             removeListeners();
         }
         public function resume(): void {
             if (this._animation is MovieClip)
                 _animation.play();
+            if (this._attack_effect is MovieClip)
+                _attack_effect.play();
             addListeners();
         }
 
