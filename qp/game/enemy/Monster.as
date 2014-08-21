@@ -82,7 +82,7 @@ package qp.game.enemy {
             this.x -= 3;
         }
 
-        private function ENTER_FRAME(e: Event): void {
+        protected function ENTER_FRAME(e: Event): void {
             if (this.alpha <= 0                        ||
                 this.x + this.width < 0                ||
                 this.y + this.height > stage.stageHeight)

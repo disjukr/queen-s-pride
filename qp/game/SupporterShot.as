@@ -50,9 +50,11 @@ package qp.game {
                     }
                 }
             }
-            if ((this.x - this.width) > stage.stageWidth) {
-                this.destroy();
-                return;
+            if (stage) {
+                if ((this.x - this.width) > stage.stageWidth) {
+                    this.destroy();
+                    return;
+                }
             }
         } // end ENTER_FRAME
     }
