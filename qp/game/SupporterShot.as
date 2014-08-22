@@ -15,7 +15,7 @@ package qp.game {
             this._targets = value;
         }
         public function get damage(): int {
-            return 10;
+            return 25;
         }
 
         public function init(): void {

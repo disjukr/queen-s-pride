@@ -12,8 +12,8 @@ package qp.game {
         public static var HURT: String = 'hurt';
         public static var DEAD: String = 'dead';
 
-        private static var DEFAULT_MAX_HEALTH: int = 100;
-        private static var DEFAULT_HEALTH: int = 100;
+        private static var DEFAULT_MAX_HEALTH: int = 200;
+        private static var DEFAULT_HEALTH: int = 200;
         private static var HURT_TIME: int = 40;
         private static var HURT_BLINK_TIME: int = 10;
         private static var HURT_BLINK_ALPHA: Number = 0.2;

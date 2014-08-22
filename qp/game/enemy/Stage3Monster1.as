@@ -21,9 +21,10 @@ package qp.game.enemy {
             if (this._state != LIVE)
                 return;
             super.hit(attacker);
+            this.game.score += 1;
             if (this._health == 0) {
                 this.game.mission -= 1;
-                this.game.score += 20;
+                this.game.score += 50;
             }
         }
 

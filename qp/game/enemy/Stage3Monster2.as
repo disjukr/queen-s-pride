@@ -10,12 +10,14 @@ package qp.game.enemy {
     public class Stage3Monster2 extends Monster implements ICanAttack {
 
         private var _s: int;
+        private var _a: int;
         private var _c: int;
         private var _targets: Vector.<ICanDie>;
 
         public function Stage3Monster2() {
             this._health = this._maxHealth = 400;
             this._s = 0;
+            this._a = 0;
             this._c = 0;
         }
 
@@ -23,8 +25,9 @@ package qp.game.enemy {
             if (this._state != LIVE)
                 return;
             super.hit(attacker);
+            this.game.score += 2;
             if (this._health == 0) {
-                this.game.score += 35;
+                this.game.score += 400;
             }
         }
 
@@ -53,10 +56,15 @@ package qp.game.enemy {
         override protected function ENTER_FRAME(e: Event): void {
             super.ENTER_FRAME(e);
             this._s++;
+            this._a++;
             if (this._s > 40 && this._c < 3) {
                 this._s = 0;
                 this.shot();
                 this._c++;
+            }
+            if (this._a > 350) {
+                this._a = 0;
+                this._c = 0;
             }
         }
 

@@ -20,10 +20,11 @@ package qp.game.enemy {
         override public function hit(attacker: ICanAttack): void {
             if (this._state != LIVE)
                 return;
+            this.game.score += 2;
             super.hit(attacker);
             if (this._health == 0) {
                 this.game.mission -= 1;
-                this.game.score += 50;
+                this.game.score += 200;
             }
         }
 
