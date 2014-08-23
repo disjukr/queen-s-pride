@@ -15,7 +15,7 @@ package qp.game.enemy.shot {
             this._targets = value;
         }
         public function get damage(): int {
-            return 5;
+            return 20;
         }
 
         public function init(): void {
@@ -38,7 +38,7 @@ package qp.game.enemy.shot {
         }
 
         private function ENTER_FRAME(e: Event): void {
-            x -= 8;
+            x -= 12;
             if (_targets && _targets.length > 0) {
                 for each (var target: ICanDie in _targets) {
                     if (target.getHitArea().hitTestPoint(x, y)) {

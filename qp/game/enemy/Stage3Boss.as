@@ -23,6 +23,9 @@ package qp.game.enemy {
         private var _targets: Vector.<ICanDie>;
         private var _shot_t: Number;
         private var _shot_d: int;
+        private var _shot_a: int;
+
+        private var _skill: int;
 
         public function Stage3Boss() {
             this.state = COME;
@@ -30,6 +33,8 @@ package qp.game.enemy {
             this._anim_t = 0;
             this._shot_t = 0;
             this._shot_d = 0;
+            this._shot_a = 0;
+            this._skill = 0;
         }
 
         override public function hit(attacker: ICanAttack): void {
@@ -54,14 +59,38 @@ package qp.game.enemy {
             this.x -= 4;
         }
 
+        public function skill(): void {
+            var skill: Stage3BossSkill = new Stage3BossSkill();
+            skill.x = stage.stageWidth;
+            skill.y = stage.stageHeight * 0.5;
+            skill.targets = game.players;
+            if (game.dynamicArea)
+                game.dynamicArea.addChild(skill);
+            skill.resume();
+        }
+
         private function shot(): void {
             var shot: Stage3BossShot = new Stage3BossShot();
+            var sy: Number = (Math.sin(this._shot_t) + 1) * 0.5;
             shot.x = stage.stageWidth + shot.width;
-            shot.y = this._shot_t * stage.stageHeight;
+            shot.y = sy * stage.stageHeight;
             shot.targets = game.players;
             if (game.dynamicArea)
                 game.dynamicArea.addChild(shot);
             shot.resume();
+        }
+
+        private function emitShot(): void {
+            this._shot_t += 0.025;
+            this._shot_d++;
+            if (this._shot_d > 7) {
+                this._shot_d = 0;
+                this._shot_a++;
+                if (this._shot_a < 8)
+                    shot();
+                if (this._shot_a > 13)
+                    this._shot_a = 0;
+            }
         }
 
         override protected function ENTER_FRAME(e: Event): void {
@@ -80,6 +109,7 @@ package qp.game.enemy {
                     this.gotoAndStop("default");
                 if (this._health < 17000)
                     this.state = WEAK;
+                emitShot();
                 break;
             case SKILL:
                 if (this.currentLabel != "skill")
@@ -88,6 +118,12 @@ package qp.game.enemy {
             case WEAK:
                 if (this.currentLabel != "weak")
                     this.gotoAndStop("weak");
+                this._skill++;
+                if (this._skill > 180) {
+                    this._skill = 0;
+                    this.state = SKILL;
+                }
+                emitShot();
                 break;
             case DEAD:
                 if (this.currentLabel != "death")
@@ -103,12 +139,6 @@ package qp.game.enemy {
             if (this.animation != null) {
                 this._anim_t += 0.05;
                 this.animation.y = Math.sin(this._anim_t) * 20;
-            }
-            this._shot_t += 0.025;
-            this._shot_d++;
-            if (this._shot_d > 10) {
-                this._shot_d = 0;
-                // shot();
             }
         }
 
