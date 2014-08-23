@@ -38,7 +38,7 @@ package qp.game.enemy.shot {
         }
 
         private function ENTER_FRAME(e: Event): void {
-            x -= 6;
+            x -= 10;
             if (_targets && _targets.length > 0) {
                 for each (var target: ICanDie in _targets) {
                     if (target.getHitArea().hitTestPoint(x, y)) {
