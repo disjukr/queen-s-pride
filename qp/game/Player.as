@@ -149,6 +149,11 @@ package qp.game {
             case DEAD:
                 this._dy += 1;
                 this.y += this._dy;
+                if (this.y - this.height > stage.stageHeight) {
+                    if (this.game.gameEndHook != null)
+                        this.game.gameEndHook();
+                    this.game.gameEndHook = null;
+                }
                 break;
             }
         }

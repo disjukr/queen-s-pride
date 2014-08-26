@@ -17,6 +17,7 @@ package qp.game {
         private var _score: int;
         public var missionHook: Function;
         public var scoreHook: Function;
+        public var gameEndHook: Function;
 
         // 동적으로 화면에 무언가를 배치하기 위한 영역
         // 경고 표시를 위쪽에 그리기 위해서 동적으로 생성되는 객체,

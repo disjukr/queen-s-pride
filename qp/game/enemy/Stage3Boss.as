@@ -132,7 +132,9 @@ package qp.game.enemy {
                 this.alpha -= 0.005;
                 if (this.alpha < 0) {
                     this.game.removeMonster(this);
-                    // TODO: game clear
+                    if (this.game.gameEndHook != null)
+                        this.game.gameEndHook();
+                    this.game.gameEndHook = null;
                 }
                 break;
             }
