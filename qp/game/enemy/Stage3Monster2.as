@@ -28,6 +28,7 @@ package qp.game.enemy {
             this.game.score += 2;
             if (this._health == 0) {
                 this.game.score += 400;
+                this.game.emitCoin(15 + Math.random() * 5, this);
             }
         }
 

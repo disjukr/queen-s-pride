@@ -25,6 +25,7 @@ package qp.game.enemy {
             if (this._health == 0) {
                 this.game.mission -= 1;
                 this.game.score += 200;
+                this.game.emitCoin(20 + Math.random() * 10, this);
             }
         }
 

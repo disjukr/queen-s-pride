@@ -15,6 +15,7 @@ package qp.game {
 
         private var _mission: int;
         private var _score: int;
+        public var coinHook: Function;
         public var missionHook: Function;
         public var scoreHook: Function;
         public var gameEndHook: Function;
@@ -63,6 +64,16 @@ package qp.game {
             this.supporters.forEach(function (supporter: Supporter, index, vector): void {
                 supporter.focusAnchor = new Point(-40, 30 * index - lift);
             });
+        }
+        public function emitCoin(quantity: int, emitPoint: DisplayObject): void {
+            var coin: Coin = new Coin(quantity,
+                                      Math.random() * 10 - 8,
+                                      -(Math.random() * 5 + 3));
+            coin.game = this;
+            coin.x = emitPoint.x;
+            coin.y = emitPoint.y;
+            dynamicArea.addChild(coin);
+            coin.resume();
         }
         public function spawnMonster(monsterClass: Class, spawnPoint: DisplayObject): void {
             var monster: MovieClip = new monsterClass;
