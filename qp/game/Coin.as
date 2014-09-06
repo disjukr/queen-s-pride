@@ -37,7 +37,8 @@ package qp.game {
         }
 
         private function destroy(): void {
-            this.parent.removeChild(this);
+            if (this.parent != null)
+                this.parent.removeChild(this);
             this.pause();
         }
 
@@ -50,8 +51,10 @@ package qp.game {
                     this.game.coinHook(this.quantity);
                 destroy();
             }
-            if (this.y - this.height > stage.stageHeight) {
-                destroy();
+            if (stage != null) {
+                if (this.y - this.height > stage.stageHeight) {
+                    destroy();
+                }
             }
         }
     }
