@@ -13,6 +13,7 @@ package qp.game.enemy {
         public static var DEAD: String = 'dead';
 
         public var game: Game;
+        public var deadSound: String;
 
         protected var _maxHealth: int;
         protected var _health: int;
@@ -49,6 +50,7 @@ package qp.game.enemy {
                 this._dy = -(15 + Math.random() * 5);
                 this._dr = (Math.random() - 0.5) * 30;
                 this.dispatchEvent(new Event("dead"));
+                SoundManager.event(deadSound);
                 if (game.dynamicArea) {
                     var boom: Boom = new Boom;
                     boom.x = this.x;

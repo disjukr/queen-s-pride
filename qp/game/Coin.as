@@ -47,6 +47,7 @@ package qp.game {
             this.x += this._dx;
             this.y += this._dy;
             if (this.game.player.getHitArea().hitTestPoint(this.x, this.y)) {
+                SoundManager.event("coin");
                 if (this.game.coinHook != null)
                     this.game.coinHook(this.quantity);
                 destroy();

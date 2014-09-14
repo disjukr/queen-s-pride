@@ -15,6 +15,7 @@ package qp.game.enemy {
         public function Stage3Monster1() {
             this._health = this._maxHealth = 300;
             this._t = 0;
+            this.deadSound = "stage3dead1";
         }
 
         override public function hit(attacker: ICanAttack): void {

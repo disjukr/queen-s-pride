@@ -19,6 +19,7 @@ package qp.game.enemy {
             this._s = 0;
             this._a = 0;
             this._c = 0;
+            this.deadSound = "stage3dead4";
         }
 
         override public function hit(attacker: ICanAttack): void {

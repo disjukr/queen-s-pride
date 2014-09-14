@@ -35,12 +35,14 @@ package qp.game.enemy {
             this._shot_d = 0;
             this._shot_a = 0;
             this._skill = 0;
+            this.deadSound = "stage3bossdead";
         }
 
         override public function hit(attacker: ICanAttack): void {
             if (this.state == DEAD)
                 return;
             super.hit(attacker);
+            SoundManager.event("stage3bosshit");
             this.game.score += 1;
             if (this._health == 0) {
                 this.game.score += 5000;
