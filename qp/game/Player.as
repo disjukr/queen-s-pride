@@ -70,6 +70,10 @@ package qp.game {
         public function get health(): int {
             return this._health;
         }
+        public function heal(much: int): void {
+            _health += much;
+            _health = Math.min(_health, maxHealth);
+        }
         public function hit(attacker: ICanAttack): void {
             switch (this._state) {
             case LIVE:

@@ -20,6 +20,7 @@ package qp.game.enemy {
             this._a = 0;
             this._c = 0;
             this.deadSound = "stage3dead2";
+            this.chance = 0.1;
         }
 
         override public function hit(attacker: ICanAttack): void {

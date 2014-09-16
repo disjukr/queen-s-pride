@@ -28,6 +28,7 @@ package qp.game {
         public function Game() {
             supporters = new Vector.<Supporter>;
             players = new Vector.<ICanDie>;
+            Coin.list = new Vector.<Coin>;
             super();
         }
 
@@ -64,6 +65,18 @@ package qp.game {
             this.supporters.forEach(function (supporter: Supporter, index, vector): void {
                 supporter.focusAnchor = new Point(-40, 30 * index - lift);
             });
+        }
+        public function emitItem(chance: Number, emitPoint: DisplayObject): void {
+            var itemClass: Class;
+            if (Math.random() < chance) {
+                itemClass = (Math.random() > 0.5) ? Magnet : Potion;
+                var item: Item = new itemClass;
+                item.game = this;
+                item.x = emitPoint.x;
+                item.y = emitPoint.y;
+                dynamicArea.addChild(item);
+                item.resume();
+            }
         }
         public function emitCoin(quantity: int, emitPoint: DisplayObject): void {
             var coin: Coin = new Coin(quantity,

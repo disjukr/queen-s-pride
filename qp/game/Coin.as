@@ -12,6 +12,9 @@ package qp.game {
         private var _dy: Number;
 
         public var quantity: int;
+        public var magnet: Boolean;
+
+        public static var list: Vector.<Coin>;
 
         public function Coin(quantity: int, dx: Number, dy: Number) {
             this.mouseEnabled = false;
@@ -19,6 +22,8 @@ package qp.game {
             this._dx = dx;
             this._dy = dy;
             this.quantity = quantity;
+            this.magnet = false;
+            Coin.list.push(this);
         }
 
         // Pausable
@@ -37,15 +42,26 @@ package qp.game {
         }
 
         private function destroy(): void {
+            this.pause();
             if (this.parent != null)
                 this.parent.removeChild(this);
-            this.pause();
+            Coin.list.splice(Coin.list.indexOf(this), 1);
         }
 
         private function ENTER_FRAME(e: Event): void {
-            this._dy += 0.2;
-            this.x += this._dx;
-            this.y += this._dy;
+            var px: Number = game.player.x;
+            var py: Number = game.player.y;
+            var ldx: Number = px - x;
+            var ldy: Number = py - y;
+            var dir: Number = Math.atan2(ldy, ldx);
+            if (magnet) {
+                x += Math.cos(dir) * 30;
+                y += Math.sin(dir) * 30;
+            } else {
+                this._dy += 0.2;
+                this.x += this._dx;
+                this.y += this._dy;
+            }
             if (this.game.player.getHitArea().hitTestPoint(this.x, this.y)) {
                 SoundManager.event("coin");
                 if (this.game.coinHook != null)

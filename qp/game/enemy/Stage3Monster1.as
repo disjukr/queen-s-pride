@@ -16,6 +16,7 @@ package qp.game.enemy {
             this._health = this._maxHealth = 300;
             this._t = 0;
             this.deadSound = "stage3dead1";
+            this.chance = 0.05;
         }
 
         override public function hit(attacker: ICanAttack): void {
