@@ -14,6 +14,17 @@
 * 프로그래밍 - 최종찬 disjukr@naver.com
 
 
+## 작업파일
+
+`queen's pride.fla` 파일은 Adobe Flash Professional CS6 작업파일입니다.
+`.xfl`로 변환하기 귀찮아ㅏㅏㅏㅏ
+
+
+## 아무도 묻지 않지만 제 발 저려서 하는 변명
+
+빌드된 바이너리가 쓰잘데기 없이 저장소에 포함돼있는 것은 그냥 ignore하기 귀찮아서입니다.
+
+
 ## 저작권
 
 소스코드는 [WTFPL Version 2](http://www.wtfpl.net/txt/copying/) 하에 배포합니다.
