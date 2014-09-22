@@ -6,6 +6,11 @@
 프로그래밍을 도와주고 여자친구를 얻었다는 소식입니다.
 
 
+## 다운로드
+
+[여기서](https://github.com/disjukr/queen-s-pride/releases)
+
+
 ## 만든 사람들
 
 * 게임 디자인 - 김소희 vallen_ty@naver.com
